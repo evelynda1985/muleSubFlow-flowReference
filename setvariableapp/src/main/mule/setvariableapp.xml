@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="dcc2a0b8-f05b-4203-8d16-39b679f3c3c4" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<flow name="setvariableappFlow" doc:id="44cf01b3-0dfa-46cb-91fc-2a5c92450e67" >
+		<http:listener doc:name="Listener" doc:id="84b7da20-df37-40ee-9e92-02bc48a6c72b" config-ref="HTTP_Listener_config" path="/myvariable"/>
+		<flow-ref doc:name="Flow Reference" doc:id="15112ba3-0923-40cd-9d86-c92b3b5dd453" name="setvariableappSub_Flow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e738dba5-b5b9-4d6a-bfdf-3d603dff2c1d" message='#[vars.myPayload]'/>
+	</flow>
+	<sub-flow name="setvariableappSub_Flow" doc:id="1a9c9a72-9aa8-4cd3-9e41-82eca39c7c31" >
+		<set-variable value="Evelyn" doc:name="firstName" doc:id="65eef9a5-791b-4759-88b3-b291b3486d32" variableName="firstName" />
+		<set-variable value="Sanchez" doc:name="lastName" doc:id="28016f33-97db-4403-bdcc-3abae66e9d7a" variableName="lastName" />
+		<set-variable value="#[payload]" doc:name="myPayload" doc:id="f68735b2-3dd7-4c32-bb2f-92f2dc5090c1" variableName="myPayload" />
+	</sub-flow>
+</mule>
